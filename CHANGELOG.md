@@ -1,5 +1,10 @@
 # Changelog
 
+## mscs specific changes (12.0.301)
+
+- [ ] Fixes
+ - [x] Changed Reorganizing logic to comply with internal organization rules
+
 ## vNext (12.1)
 
 These changes have not been released to the Visual Studio marketplace, but (if checked) are available in preview within the [CI build](http://vsixgallery.com/extension/4c82e17d-927e-42d2-8460-b473ac7df316/).
