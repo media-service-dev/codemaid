@@ -3,7 +3,7 @@
 ## mscs specific changes (12.0.301)
 
 - [ ] Fixes
- - [x] Changed Reorganizing logic to comply with internal organization rules
+  - [x] Changed Reorganizing logic to comply with internal organization rules
 
 ## vNext (12.1)
 
