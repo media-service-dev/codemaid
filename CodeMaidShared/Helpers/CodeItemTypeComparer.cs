@@ -2,6 +2,7 @@ using EnvDTE;
 using SteveCadwallader.CodeMaid.Model.CodeItems;
 using SteveCadwallader.CodeMaid.Properties;
 using System.Collections.Generic;
+using System.Linq;
 using SteveCadwallader.CodeMaid.Helpers.AccessModifier;
 
 namespace SteveCadwallader.CodeMaid.Helpers
@@ -69,6 +70,11 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
         private static int CalculateNumericRepresentation(BaseCodeItem codeItem)
         {
+            var offsetModifiers = new[] { 100_000, 10_000, 1_000, 100, 10, 1 };
+            var groupOrder = GroupOrderSettingHelper.GroupOrderList
+                    .Zip(offsetModifiers, (setting, offsetModifier) => new { setting.Name, OffsetModifier = offsetModifier })
+                    .ToDictionary(setting => setting.Name, setting => setting.OffsetModifier);
+
             int typeOffset = CalculateTypeOffset(codeItem);
             int accessOffset = CalculateAccessOffset(codeItem);
             int explicitOffset = CalculateExplicitInterfaceOffset(codeItem);
@@ -78,18 +84,7 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
             int calc = 0;
 
-            if (!Settings.Default.Reorganizing_PrimaryOrderByAccessLevel)
-            {
-                calc += typeOffset * 100_000;
-                calc += accessOffset * 10;
-            }
-            else
-            {
-                calc += accessOffset * 10;
-                calc += typeOffset * 100_000;
-            }
-
-            calc += (explicitOffset * 10_000) + (constantOffset * 1_000) + (staticOffset * 100) + (readOnlyOffset);
+            calc += (typeOffset * groupOrder["Type"]) + (accessOffset + groupOrder["Access"]) + (explicitOffset * groupOrder["ExplicitInterface"]) + (constantOffset * groupOrder["Constant"]) + (staticOffset * groupOrder["Static"]) + (readOnlyOffset * groupOrder["ReadOnly"]);
 
             return calc;
         }
