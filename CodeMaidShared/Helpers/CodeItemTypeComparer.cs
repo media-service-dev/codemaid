@@ -2,6 +2,7 @@ using EnvDTE;
 using SteveCadwallader.CodeMaid.Model.CodeItems;
 using SteveCadwallader.CodeMaid.Properties;
 using System.Collections.Generic;
+using SteveCadwallader.CodeMaid.Helpers.AccessModifier;
 
 namespace SteveCadwallader.CodeMaid.Helpers
 {
@@ -79,16 +80,16 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
             if (!Settings.Default.Reorganizing_PrimaryOrderByAccessLevel)
             {
-                calc += typeOffset * 100000;
-                calc += accessOffset * 10000;
+                calc += typeOffset * 100_000;
+                calc += accessOffset * 10;
             }
             else
             {
-                calc += accessOffset * 100000;
-                calc += typeOffset * 10000;
+                calc += accessOffset * 10;
+                calc += typeOffset * 100_000;
             }
 
-            calc += (explicitOffset * 1000) + (constantOffset * 100) + (staticOffset * 10) + readOnlyOffset;
+            calc += (explicitOffset * 10_000) + (constantOffset * 1_000) + (staticOffset * 100) + (readOnlyOffset);
 
             return calc;
         }
@@ -118,30 +119,25 @@ namespace SteveCadwallader.CodeMaid.Helpers
             var codeItemElement = codeItem as BaseCodeItemElement;
             if (codeItemElement == null) return 0;
 
-            var itemsOrder = new List<vsCMAccess>
-            {
-                vsCMAccess.vsCMAccessPublic,
-                vsCMAccess.vsCMAccessAssemblyOrFamily,
-                vsCMAccess.vsCMAccessProject,
-                vsCMAccess.vsCMAccessProjectOrProtected,
-                vsCMAccess.vsCMAccessProtected,
-                vsCMAccess.vsCMAccessPrivate
-            };
+            var itemsOrder = AccessModifierOrderSettingHelper.AccessModifierOrderList;
 
-            if (Settings.Default.Reorganizing_ReverseOrderByAccessLevel)
+            if (codeItem is IInterfaceItem { IsExplicitInterfaceImplementation: true })
             {
-                itemsOrder.Reverse();
+                var privateModifier = AccessModifierOrderSettingHelper.LookupByVsCmAccess(vsCMAccess.vsCMAccessPrivate);
+
+                return itemsOrder.IndexOf(privateModifier) + 1;
             }
 
-            return itemsOrder.IndexOf(codeItemElement.Access) + 1;
+            var accessModifierOrder = AccessModifierOrderSettingHelper.LookupByVsCmAccess(codeItemElement.Access);
+
+            return accessModifierOrder.Order + 1;
         }
 
         private static int CalculateExplicitInterfaceOffset(BaseCodeItem codeItem)
         {
             if (Settings.Default.Reorganizing_ExplicitMembersAtEnd)
             {
-                var interfaceItem = codeItem as IInterfaceItem;
-                if ((interfaceItem != null) && interfaceItem.IsExplicitInterfaceImplementation)
+                if (codeItem is IInterfaceItem { IsExplicitInterfaceImplementation: true })
                 {
                     return 1;
                 }

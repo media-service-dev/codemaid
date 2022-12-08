@@ -2222,10 +2222,10 @@ namespace SteveCadwallader.CodeMaid.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
-            "tring>ReSharper disable </string>\r\n  <string>ReSharper enable </string>\r\n</Array" +
-            "OfString>")]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<ArrayOfString xmlns:xsi=\"http://www.w3.o" +
+            "rg/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\n  <str" +
+            "ing>ReSharper disable </string>\n  <string>ReSharper enable </string>\n</ArrayOfSt" +
+            "ring>")]
         public global::System.Collections.Specialized.StringCollection Formatting_IgnoreLinesStartingWith {
             get {
                 return ((global::System.Collections.Specialized.StringCollection)(this["Formatting_IgnoreLinesStartingWith"]));
@@ -2304,6 +2304,18 @@ namespace SteveCadwallader.CodeMaid.Properties {
             }
             set {
                 this["Reorganizing_RegionsIncludeAccessLevelForMethodsOnly"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Public||ProtectedInternal||Protected||Internal||Private")]
+        public string Reorganizing_AccessModifierList {
+            get {
+                return ((string)(this["Reorganizing_AccessModifierList"]));
+            }
+            set {
+                this["Reorganizing_AccessModifierList"] = value;
             }
         }
     }

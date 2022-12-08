@@ -576,5 +576,8 @@
     <Setting Name="Reorganizing_RegionsIncludeAccessLevelForMethodsOnly" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Reorganizing_AccessModifierList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Public||ProtectedInternal||Protected||Internal||Private</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
