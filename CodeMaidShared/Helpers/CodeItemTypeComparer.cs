@@ -2,6 +2,7 @@ using EnvDTE;
 using SteveCadwallader.CodeMaid.Model.CodeItems;
 using SteveCadwallader.CodeMaid.Properties;
 using System.Collections.Generic;
+using SteveCadwallader.CodeMaid.Helpers.AccessModifier;
 
 namespace SteveCadwallader.CodeMaid.Helpers
 {
@@ -118,27 +119,18 @@ namespace SteveCadwallader.CodeMaid.Helpers
             var codeItemElement = codeItem as BaseCodeItemElement;
             if (codeItemElement == null) return 0;
 
-            var itemsOrder = new List<vsCMAccess>
-            {
-                vsCMAccess.vsCMAccessPublic,
-                vsCMAccess.vsCMAccessAssemblyOrFamily,
-                vsCMAccess.vsCMAccessProjectOrProtected,
-                vsCMAccess.vsCMAccessProtected,
-                vsCMAccess.vsCMAccessProject,
-                vsCMAccess.vsCMAccessPrivate
-            };
-
-            if (Settings.Default.Reorganizing_ReverseOrderByAccessLevel)
-            {
-                itemsOrder.Reverse();
-            }
+            var itemsOrder = AccessModifierOrderSettingHelper.AccessModifierOrderList;
 
             if (codeItem is IInterfaceItem { IsExplicitInterfaceImplementation: true })
             {
-                return itemsOrder.IndexOf(vsCMAccess.vsCMAccessPrivate) + 1;
+                var privateModifier = AccessModifierOrderSettingHelper.LookupByVsCmAccess(vsCMAccess.vsCMAccessPrivate);
+
+                return itemsOrder.IndexOf(privateModifier) + 1;
             }
 
-            return itemsOrder.IndexOf(codeItemElement.Access) + 1;
+            var accessModifierOrder = AccessModifierOrderSettingHelper.LookupByVsCmAccess(codeItemElement.Access);
+
+            return accessModifierOrder.Order + 1;
         }
 
         private static int CalculateExplicitInterfaceOffset(BaseCodeItem codeItem)

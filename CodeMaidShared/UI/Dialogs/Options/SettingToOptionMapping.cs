@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using SteveCadwallader.CodeMaid.Helpers.AccessModifier;
 
 namespace SteveCadwallader.CodeMaid.UI.Dialogs.Options
 {
@@ -51,6 +52,13 @@ namespace SteveCadwallader.CodeMaid.UI.Dialogs.Options
                 // Note: No need to do an equality comparison before assignment as all options already have that through the Bindable base class.
                 OptionProperty.SetValue(optionClass, optionValue);
             }
+            else if (typeof(TS) == typeof(string) && typeof(TO) == typeof(AccessModifierOrderListSetting))
+            {
+                var optionValue = (AccessModifierOrderListSetting)(string)settingValue;
+
+                // Note: No need to do an equality comparison before assignment as all options already have that through the Bindable base class.
+                OptionProperty.SetValue(optionClass, optionValue);
+            }
             else
             {
                 var optionValue = (TO)settingValue;
@@ -71,6 +79,16 @@ namespace SteveCadwallader.CodeMaid.UI.Dialogs.Options
             if (typeof(TS) == typeof(string) && typeof(TO) == typeof(MemberTypeSetting))
             {
                 var optionValue = (string)(MemberTypeSetting)OptionProperty.GetValue(optionClass);
+                var settingValue = (string)SettingProperty.GetValue(settingsClass);
+
+                if (!EqualityComparer<string>.Default.Equals(optionValue, settingValue))
+                {
+                    SettingProperty.SetValue(settingsClass, optionValue);
+                }
+            }
+            else if (typeof(TS) == typeof(string) && typeof(TO) == typeof(AccessModifierOrderListSetting))
+            {
+                var optionValue = (string)(AccessModifierOrderListSetting)OptionProperty.GetValue(optionClass);
                 var settingValue = (string)SettingProperty.GetValue(settingsClass);
 
                 if (!EqualityComparer<string>.Default.Equals(optionValue, settingValue))
