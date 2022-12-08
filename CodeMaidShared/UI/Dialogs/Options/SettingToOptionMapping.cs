@@ -59,6 +59,13 @@ namespace SteveCadwallader.CodeMaid.UI.Dialogs.Options
                 // Note: No need to do an equality comparison before assignment as all options already have that through the Bindable base class.
                 OptionProperty.SetValue(optionClass, optionValue);
             }
+            else if (typeof(TS) == typeof(string) && typeof(TO) == typeof(GroupOrderListSetting))
+            {
+                var optionValue = (GroupOrderListSetting)(string)settingValue;
+
+                // Note: No need to do an equality comparison before assignment as all options already have that through the Bindable base class.
+                OptionProperty.SetValue(optionClass, optionValue);
+            }
             else
             {
                 var optionValue = (TO)settingValue;
@@ -89,6 +96,16 @@ namespace SteveCadwallader.CodeMaid.UI.Dialogs.Options
             else if (typeof(TS) == typeof(string) && typeof(TO) == typeof(AccessModifierOrderListSetting))
             {
                 var optionValue = (string)(AccessModifierOrderListSetting)OptionProperty.GetValue(optionClass);
+                var settingValue = (string)SettingProperty.GetValue(settingsClass);
+
+                if (!EqualityComparer<string>.Default.Equals(optionValue, settingValue))
+                {
+                    SettingProperty.SetValue(settingsClass, optionValue);
+                }
+            }
+            else if (typeof(TS) == typeof(string) && typeof(TO) == typeof(GroupOrderListSetting))
+            {
+                var optionValue = (string)(GroupOrderListSetting)OptionProperty.GetValue(optionClass);
                 var settingValue = (string)SettingProperty.GetValue(settingsClass);
 
                 if (!EqualityComparer<string>.Default.Equals(optionValue, settingValue))

@@ -31,6 +31,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\EnumHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ExplicitInterfaceImplementationHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\FileHeaderHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GroupOrder\GroupOrderListSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GroupOrder\GroupOrderSetting.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\GroupOrder\GroupOrderSettingHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MemberTypeSetting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\MemberTypeSettingHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\OutputWindowHelper.cs" />
@@ -210,6 +213,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Progressing\ProgressingViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingAccessModifierViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingGeneralViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingGroupOrderViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingParentViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingRegionsViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingTypesViewModel.cs" />
@@ -314,6 +318,7 @@
     <Page Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingGeneralDataTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingGroupOrderDataTemplate.xaml" />
     <Page Include="$(MSBuildThisFileDirectory)UI\Dialogs\Options\Reorganizing\ReorganizingParentDataTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
