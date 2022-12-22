@@ -1,9 +1,10 @@
 # Changelog
 
-## mscs specific changes (12.0.301)
+## mscs specific changes (12.0.302)
 
-- [ ] Fixes
-  - [x] Changed Reorganizing logic to comply with internal organization rules
+- [ ] Features
+  - [x] Added settings for access modifier order for reorganizing code
+  - [x] Added settings for group order for reorganizing code
 
 ## vNext (12.1)
 
