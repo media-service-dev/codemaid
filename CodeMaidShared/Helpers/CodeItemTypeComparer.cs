@@ -84,7 +84,16 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
             int calc = 0;
 
-            calc += (typeOffset * groupOrder["Type"]) + (accessOffset + groupOrder["Access"]) + (explicitOffset * groupOrder["ExplicitInterface"]) + (constantOffset * groupOrder["Constant"]) + (staticOffset * groupOrder["Static"]) + (readOnlyOffset * groupOrder["ReadOnly"]);
+            calc += (typeOffset * groupOrder["Type"]);
+            calc += (accessOffset * groupOrder["Access"]);
+            calc += (explicitOffset * groupOrder["ExplicitInterface"]);
+            calc += (constantOffset * groupOrder["Constant"]);
+            calc += (staticOffset * groupOrder["Static"]);
+            calc += (readOnlyOffset * groupOrder["ReadOnly"]);
+
+            // calc += typeOffset * 100_000;
+            // calc += accessOffset * 10;
+            // calc += (explicitOffset * 10_000) + (constantOffset * 1_000) + (staticOffset * 100) + (readOnlyOffset);
 
             return calc;
         }
