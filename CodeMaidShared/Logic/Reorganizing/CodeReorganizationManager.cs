@@ -182,6 +182,7 @@ namespace SteveCadwallader.CodeMaid.Logic.Reorganizing
             // Remove the text and cleanup whitespace.
             removeStartPoint.Delete(removeEndPoint);
             removeStartPoint.DeleteWhitespace(vsWhitespaceOptions.vsWhitespaceOptionsVertical);
+            removeStartPoint.Insert(Environment.NewLine);
 
             return text;
         }
