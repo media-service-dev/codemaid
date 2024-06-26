@@ -3,7 +3,7 @@
 ## mscs specific changes (12.0.303)
 
 - [ ] Fixes
-  - [ ] Possible fix for missing new line after reorganize
+  - [x] Possible fix for missing new line after reorganize
 
 ## mscs specific changes (12.0.302)
 
