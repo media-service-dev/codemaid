@@ -932,4 +932,13 @@ Do you want to reorganize anyways (DANGEROUS)?</value>
   <data name="OnlyForMethods" xml:space="preserve">
     <value>Only for methods</value>
   </data>
+  <data name="ReorganizingAccessModifierViewModel_AccessModifiers" xml:space="preserve">
+      <value>Access Modifiers</value>
+  </data>
+  <data name="AccessModifierOrder" xml:space="preserve">
+      <value>Access modifier order</value>
+  </data>
+  <data name="DragToReorder" xml:space="preserve">
+      <value>Drag to reorder</value>
+  </data>
 </root>

@@ -1,5 +1,11 @@
 # Changelog
 
+## mscs specific changes (12.0.302)
+
+- [ ] Features
+  - [x] Added settings for access modifier order for reorganizing code
+  - [x] Added settings for group order for reorganizing code
+
 ## vNext (12.1)
 
 These changes have not been released to the Visual Studio marketplace, but (if checked) are available in preview within the [CI build](http://vsixgallery.com/extension/4c82e17d-927e-42d2-8460-b473ac7df316/).

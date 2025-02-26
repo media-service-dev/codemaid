@@ -2,6 +2,8 @@ using EnvDTE;
 using SteveCadwallader.CodeMaid.Model.CodeItems;
 using SteveCadwallader.CodeMaid.Properties;
 using System.Collections.Generic;
+using System.Linq;
+using SteveCadwallader.CodeMaid.Helpers.AccessModifier;
 
 namespace SteveCadwallader.CodeMaid.Helpers
 {
@@ -68,6 +70,16 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
         private static int CalculateNumericRepresentation(BaseCodeItem codeItem)
         {
+            if (codeItem.Kind == KindCodeItem.Namespace)
+            {
+                return 0;
+            }
+
+            var offsetModifiers = new[] { 100_000, 10_000, 1_000, 100, 10, 1 };
+            var groupOrder = GroupOrderSettingHelper.GroupOrderList
+                    .Zip(offsetModifiers, (setting, offsetModifier) => new { setting.Name, OffsetModifier = offsetModifier })
+                    .ToDictionary(setting => setting.Name, setting => setting.OffsetModifier);
+
             int typeOffset = CalculateTypeOffset(codeItem);
             int accessOffset = CalculateAccessOffset(codeItem);
             int explicitOffset = CalculateExplicitInterfaceOffset(codeItem);
@@ -77,18 +89,16 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
             int calc = 0;
 
-            if (!Settings.Default.Reorganizing_PrimaryOrderByAccessLevel)
-            {
-                calc += typeOffset * 100000;
-                calc += accessOffset * 10000;
-            }
-            else
-            {
-                calc += accessOffset * 100000;
-                calc += typeOffset * 10000;
-            }
+            calc += (typeOffset * groupOrder["Type"]);
+            calc += (accessOffset * groupOrder["Access"]);
+            calc += (explicitOffset * groupOrder["ExplicitInterface"]);
+            calc += (constantOffset * groupOrder["Constant"]);
+            calc += (staticOffset * groupOrder["Static"]);
+            calc += (readOnlyOffset * groupOrder["ReadOnly"]);
 
-            calc += (explicitOffset * 1000) + (constantOffset * 100) + (staticOffset * 10) + readOnlyOffset;
+            // calc += typeOffset * 100_000;
+            // calc += accessOffset * 10;
+            // calc += (explicitOffset * 10_000) + (constantOffset * 1_000) + (staticOffset * 100) + (readOnlyOffset);
 
             return calc;
         }
@@ -116,32 +126,27 @@ namespace SteveCadwallader.CodeMaid.Helpers
         private static int CalculateAccessOffset(BaseCodeItem codeItem)
         {
             var codeItemElement = codeItem as BaseCodeItemElement;
-            if (codeItemElement == null) return 0;
+            if (codeItemElement == null || codeItem.Kind == KindCodeItem.Namespace) return 0;
 
-            var itemsOrder = new List<vsCMAccess>
-            {
-                vsCMAccess.vsCMAccessPublic,
-                vsCMAccess.vsCMAccessAssemblyOrFamily,
-                vsCMAccess.vsCMAccessProject,
-                vsCMAccess.vsCMAccessProjectOrProtected,
-                vsCMAccess.vsCMAccessProtected,
-                vsCMAccess.vsCMAccessPrivate
-            };
+            var itemsOrder = AccessModifierOrderSettingHelper.AccessModifierOrderList;
 
-            if (Settings.Default.Reorganizing_ReverseOrderByAccessLevel)
+            if (codeItem is IInterfaceItem { IsExplicitInterfaceImplementation: true })
             {
-                itemsOrder.Reverse();
+                var privateModifier = AccessModifierOrderSettingHelper.LookupByVsCmAccess(vsCMAccess.vsCMAccessPrivate);
+
+                return itemsOrder.IndexOf(privateModifier) + 1;
             }
 
-            return itemsOrder.IndexOf(codeItemElement.Access) + 1;
+            var accessModifierOrder = AccessModifierOrderSettingHelper.LookupByVsCmAccess(codeItemElement.Access);
+
+            return accessModifierOrder.Order + 1;
         }
 
         private static int CalculateExplicitInterfaceOffset(BaseCodeItem codeItem)
         {
             if (Settings.Default.Reorganizing_ExplicitMembersAtEnd)
             {
-                var interfaceItem = codeItem as IInterfaceItem;
-                if ((interfaceItem != null) && interfaceItem.IsExplicitInterfaceImplementation)
+                if (codeItem is IInterfaceItem { IsExplicitInterfaceImplementation: true })
                 {
                     return 1;
                 }

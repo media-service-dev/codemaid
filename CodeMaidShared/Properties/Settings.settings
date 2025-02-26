@@ -576,5 +576,11 @@
     <Setting Name="Reorganizing_RegionsIncludeAccessLevelForMethodsOnly" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Reorganizing_AccessModifierList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Public||ProtectedInternal||Protected||Internal||Private</Value>
+    </Setting>
+    <Setting Name="Reorganizing_GroupOrderList" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Type||Access||ExplicitInterface||Constant||Static||ReadOnly</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
