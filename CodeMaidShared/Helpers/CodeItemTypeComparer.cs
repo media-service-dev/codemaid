@@ -70,6 +70,11 @@ namespace SteveCadwallader.CodeMaid.Helpers
 
         private static int CalculateNumericRepresentation(BaseCodeItem codeItem)
         {
+            if (codeItem.Kind == KindCodeItem.Namespace)
+            {
+                return 0;
+            }
+
             var offsetModifiers = new[] { 100_000, 10_000, 1_000, 100, 10, 1 };
             var groupOrder = GroupOrderSettingHelper.GroupOrderList
                     .Zip(offsetModifiers, (setting, offsetModifier) => new { setting.Name, OffsetModifier = offsetModifier })
@@ -121,7 +126,7 @@ namespace SteveCadwallader.CodeMaid.Helpers
         private static int CalculateAccessOffset(BaseCodeItem codeItem)
         {
             var codeItemElement = codeItem as BaseCodeItemElement;
-            if (codeItemElement == null) return 0;
+            if (codeItemElement == null || codeItem.Kind == KindCodeItem.Namespace) return 0;
 
             var itemsOrder = AccessModifierOrderSettingHelper.AccessModifierOrderList;
 
